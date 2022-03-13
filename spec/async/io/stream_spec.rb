@@ -180,7 +180,7 @@ RSpec.describe Async::IO::Stream do
 				io.write "Hello World"
 				io.seek(0)
 				
-				expect(subject.io).to receive(:read_nonblock).and_call_original.twice
+				expect(subject.io).to receive(:sysread).and_call_original.twice
 				
 				expect(subject.read).to be == "Hello World"
 				expect(subject).to be_eof
@@ -190,7 +190,7 @@ RSpec.describe Async::IO::Stream do
 				io.write "Hello World"
 				io.seek(0)
 				
-				expect(subject.io).to receive(:read_nonblock).and_call_original.once
+				expect(subject.io).to receive(:sysread).and_call_original.once
 				
 				expect(subject.read_partial(4)).to be == "Hell"
 				expect(subject).to_not be_eof
@@ -275,7 +275,7 @@ RSpec.describe Async::IO::Stream do
 			end
 			
 			it "should avoid calling read" do
-				expect(subject.io).to receive(:read_nonblock).and_call_original.once
+				expect(subject.io).to receive(:sysread).and_call_original.once
 				
 				expect(subject.read_partial(12)).to be == "Hello World!"
 			end
